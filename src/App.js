@@ -3,16 +3,21 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import {
     Card,
-    CardContent
+    CardContent,
+    CardHeader
 } from '@material-ui/core'
 
+const url = "https://jsonplaceholder.typicode.com"
+
 const App = () => {
+    const [users, setUsers] = useState([])
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
         (async () => {
             try {
-                setPosts((await axios.get("https://jsonplaceholder.typicode.com/posts")).data)
+                setUsers((await axios.get(`${url}/users`)).data)
+                setPosts((await axios.get(`${url}/posts`)).data)
             } catch (err) {
                 console.log(err)
             }
@@ -21,14 +26,22 @@ const App = () => {
 
     return (
         <>
-            {posts.map(({ id, title, body }) => (
-                <Card key={id}>
-                    <CardContent>
-                        {title}
-                        {body}
-                    </CardContent>
-                </Card>
-            ))}
+            {posts.map(({ id, userId, title, body }) => {
+                const { name, username } = users.find(({ id }) => id === userId) || {}
+
+                return (
+                    <Card key={id}>
+                        <CardHeader
+                            title={name}
+                            subheader={username}
+                        />
+                        <CardContent>
+                            {title}
+                            {body}
+                        </CardContent>
+                    </Card>
+                )
+            })}
         </>
     )
 }
