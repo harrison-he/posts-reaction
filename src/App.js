@@ -4,8 +4,13 @@ import axios from 'axios'
 import {
     Card,
     CardContent,
-    CardHeader
+    CardHeader,
+    CardActions,
+    Button
 } from '@material-ui/core'
+import {
+    Comment
+} from '@material-ui/icons'
 
 const url = "https://jsonplaceholder.typicode.com"
 
@@ -39,6 +44,11 @@ const App = () => {
                             {title}
                             {body}
                         </CardContent>
+                        <CardActions>
+                            <Button>
+                                <Comment />Comments
+                            </Button>
+                        </CardActions>
                     </Card>
                 )
             })}
